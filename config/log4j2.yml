@@ -1,0 +1,59 @@
+Configuration:
+  status: warn
+  monitorInterval: 30
+
+  Properties:
+    Property: 
+      - name: log.level.console
+        value: info
+      - name: log.path
+        value: logs
+      - name: project.name
+        value: engineProxy
+
+  Appenders:
+    Console:  #输出到控制台
+      name: CONSOLE
+      target: SYSTEM_OUT
+      ThresholdFilter:
+        level: ${sys:log.level.console} # “sys:”表示：如果VM参数中没指定这个变量值，则使用本文件中定义的缺省全局变量值
+        onMatch: ACCEPT
+        onMismatch: DENY
+      PatternLayout:
+        pattern: "%d{yyyy-MM-dd HH:mm:ss,SSS}:%4p %t (%F:%L) - %m%n"
+
+    RollingFile: # 输出到文件，超过100MB归档
+    - name: ROLLING_FILE
+      ignoreExceptions: false
+      fileName: ${log.path}/${project.name}.log
+      filePattern: "${log.path}/$${date:yyyy-MM}/${project.name}-%d{yyyy-MM-dd}-%i.log.gz"
+      PatternLayout:
+        pattern: "%d{yyyy-MM-dd HH:mm:ss,SSS}:%4p %t (%F:%L) - %m%n"
+      Policies:
+        SizeBasedTriggeringPolicy:
+          size: "100 MB"
+      DefaultRolloverStrategy:
+        #每天保存日志的数量
+        max: 10
+        Delete:
+          BasePath: "${log.path}/$${date:yyyy-MM}"
+          MaxDepth: 3
+          IfFileName:
+            glob: "*.log.gz"
+          IfLastModified:
+            age: "7d"
+
+  Loggers:
+    Root:
+      level: info
+      AppenderRef:
+        - ref: ROLLING_FILE
+        - ref: CONSOLE
+    Logger:
+      -
+        name: com.wyuansmart.phone.engine
+        additivity: false
+        level: info
+        AppenderRef:
+          - ref: ROLLING_FILE
+          - ref: CONSOLE

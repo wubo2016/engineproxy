@@ -1,0 +1,106 @@
+server.engine.proxy:
+  #云端管理服务相关配置
+  management:
+    enable: false
+    #IP或域名
+    ip: 127.0.0.1
+    #访问的端口
+    port: 1220
+    #分配的模块ID
+    moduleId: 0
+    serial: test
+    version: 1.0.0
+
+server.stable.diffusion:
+  image-cache-time: 8
+  # AI绘画引擎信息，可以配绘画引擎
+  engines:
+    # 服务器地址
+    - serviceAddress: "http://127.0.0.1:7860"
+      checkpoint: "AsiaFacemix-pruned-fix"
+      #是否启用
+      enable: true
+      # 控制模型
+      controlNet:
+        enable: true
+        models:
+          - name: "canny"
+            model: "control_canny-fp16"
+          - name: "openpose"
+            model: "control_openpose-fp16"
+          - name: "depth"
+            model: "control_depth-fp16"
+          - name: "normal_map"
+            model: "control_normal-fp16"
+          - name: "hed"
+            model: "control_hed-fp16"
+          - name: "scribble"
+            model: "control_scribble-fp16"
+
+    # 服务器地址
+    - serviceAddress: "http://127.0.0.1:7861"
+      checkpoint: "v1-5-pruned-emaonly"
+      #是否启用
+      enable: true
+      # 控制模型
+      controlNet:
+        enable: true
+        models:
+          - name: "canny"
+            model: "control_canny-fp16"
+          - name: "openpose"
+            model: "control_openpose-fp16"
+          - name: "depth"
+            model: "control_depth-fp16"
+          - name: "normal_map"
+            model: "control_normal-fp16"
+          - name: "hed"
+            model: "control_hed-fp16"
+          - name: "scribble"
+            model: "control_scribble-fp16"
+
+server.cloud:
+  accounts:
+    #是否启用该云服务
+    - enable: false
+      #云服务厂家类型，目前支持 阿里云 ali, 腾讯云tencent
+      type: "ali"
+      # 是否支持云对象存储
+      support-storage: false
+      # 是否支持图片内容审核
+      support-auditing: false
+      endpoint: "oss-cn-shenzhen.aliyuncs.com"
+      bucketName: "test"
+      access-key-id: "你的ID"
+      access-key-secret: "你的key-secret"
+
+    #是否启用该云服务
+    - enable: true
+      #云服务厂家类型，目前支持 阿里云 ali, 腾讯云tencent
+      type: "tencent"
+      # 是否支持云对象存储
+      support-storage: true
+      # 是否支持图片内容审核
+      support-auditing: true
+      endpoint: "cos.ap-guangzhou.myqcloud.com"
+      bucketName: "test"
+      access-key-id: "你的ID"
+      access-key-secret: "你的key-secret"
+
+server.cloud.translate:
+  #云服务厂家类型，目前支持 腾讯云tencent
+  type: "tencent"
+  endpoint: "tmt.tencentcloudapi.com"
+  region: "ap-guangzhou"
+  app-id: "0"
+  access-key-id: "key id"
+  access-key-secret: "key-secret"
+
+chat.gpt.service:
+  service-address: "http://127.0.0.1:20080"
+  key: "chatgpt key"
+  token: ""
+  threads: 16
+
+service.img.localPath: /data/engine/picdata/
+service.img.urlPath: /picdata/

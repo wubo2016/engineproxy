@@ -1,0 +1,35 @@
+server:
+  port: 8070
+  compression.enabled: true
+  compression.mime-types: application/json,application/xml,text/html,text/xml,text/plain
+  compression.min-response-size: 1024
+  max-http-header-size: 4048576
+
+spring:
+  application.name: engine
+  profiles.active: development
+  http.encoding.force: true
+  http.encoding.charset: UTF-8
+  http.encoding.enabled: true
+  devtools.restart.enabled: true
+  devtools.restart.additional-paths: src/main/java
+  devtools.restart.exclude: WEB-INF/**
+  messages.basename: i18n/message
+  messages.encoding: UTF-8
+  output.ansi.enabled: DETECT
+  session.store-type: none
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 3000MB
+      max-request-size: 3000MB
+  jackson:
+    time-zone: GMT+8
+
+# swagger
+swagger:
+  title: phone-api
+  description: graph-api工程的API定义及接口
+  version: 1.0
+  email: 
+  author:
